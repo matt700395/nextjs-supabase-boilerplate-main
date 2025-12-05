@@ -53,7 +53,7 @@ export function ProductFilters({
    */
   const updateQuery = (key: string, value: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
-    
+
     // 페이지는 항상 1로 리셋
     params.delete("page");
 
@@ -111,4 +111,3 @@ export function ProductFilters({
     </div>
   );
 }
-

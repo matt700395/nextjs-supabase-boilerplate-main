@@ -24,8 +24,8 @@ function getSupabaseClient() {
   if (!supabaseUrl || !supabaseKey) {
     throw new Error(
       "Missing Supabase environment variables. Please check your .env file:\n" +
-      "- NEXT_PUBLIC_SUPABASE_URL\n" +
-      "- NEXT_PUBLIC_SUPABASE_ANON_KEY"
+        "- NEXT_PUBLIC_SUPABASE_URL\n" +
+        "- NEXT_PUBLIC_SUPABASE_ANON_KEY",
     );
   }
 
@@ -39,7 +39,7 @@ function getSupabaseClient() {
  * @returns 상품 목록
  */
 export async function getProducts(
-  options: GetProductsOptions = {}
+  options: GetProductsOptions = {},
 ): Promise<Product[]> {
   const {
     limit,
@@ -52,10 +52,7 @@ export async function getProducts(
 
   const supabase = getSupabaseClient();
 
-  let query = supabase
-    .from("products")
-    .select("*")
-    .eq("is_active", isActive);
+  let query = supabase.from("products").select("*").eq("is_active", isActive);
 
   // 카테고리 필터링
   if (category) {
@@ -91,7 +88,7 @@ export async function getProducts(
  * @returns 상품 총 개수
  */
 export async function getProductsCount(
-  options: { category?: string } = {}
+  options: { category?: string } = {},
 ): Promise<number> {
   const { category } = options;
 
@@ -130,7 +127,7 @@ export async function getPaginatedProducts(
     category?: string;
     sortBy?: "created_at" | "price" | "name";
     sortOrder?: "asc" | "desc";
-  } = {}
+  } = {},
 ): Promise<PaginatedProducts> {
   const {
     page = 1,
@@ -172,7 +169,9 @@ export async function getPaginatedProducts(
  * @param productId 상품 ID
  * @returns 상품 정보
  */
-export async function getProductById(productId: string): Promise<Product | null> {
+export async function getProductById(
+  productId: string,
+): Promise<Product | null> {
   const supabase = getSupabaseClient();
 
   const { data, error } = await supabase
@@ -229,7 +228,7 @@ export async function getAllProducts(): Promise<Product[]> {
  * @returns 해당 카테고리의 상품 목록
  */
 export async function getProductsByCategory(
-  category: string
+  category: string,
 ): Promise<Product[]> {
   return getProducts({
     category,
@@ -238,5 +237,3 @@ export async function getProductsByCategory(
     sortOrder: "desc",
   });
 }
-
-

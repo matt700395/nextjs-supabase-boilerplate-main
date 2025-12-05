@@ -42,4 +42,3 @@ export function getCategoryLabel(id: string): string {
   const category = getCategoryById(id);
   return category?.label || id;
 }
-

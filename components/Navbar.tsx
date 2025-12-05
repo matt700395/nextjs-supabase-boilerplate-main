@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { CATEGORIES } from "@/lib/constants/categories";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CartIcon } from "@/components/cart/cart-icon";
 
 const Navbar = () => {
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
@@ -68,6 +69,9 @@ const Navbar = () => {
         </div>
 
         <div className="flex gap-4 items-center">
+          {/* 장바구니 아이콘 */}
+          <CartIcon />
+
           <SignedOut>
             <SignInButton mode="modal">
               <Button>로그인</Button>

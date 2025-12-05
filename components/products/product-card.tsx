@@ -36,7 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <div className="flex h-full items-center justify-center bg-gradient-to-br from-muted to-muted/50">
             <Package className="h-16 w-16 text-muted-foreground/30" />
           </div>
-          
+
           {/* 품절 배지 */}
           {isOutOfStock && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/50">
@@ -59,12 +59,12 @@ export function ProductCard({ product }: ProductCardProps) {
           <h3 className="mb-2 line-clamp-2 text-sm font-semibold leading-tight group-hover:text-primary">
             {product.name}
           </h3>
-          
+
           <div className="flex items-center justify-between">
             <p className="text-lg font-bold text-foreground">
               {formatPrice(product.price)}
             </p>
-            
+
             {!isOutOfStock && product.stock_quantity > 0 && (
               <p className="text-xs text-muted-foreground">
                 재고 {product.stock_quantity}개
@@ -76,4 +76,3 @@ export function ProductCard({ product }: ProductCardProps) {
     </Link>
   );
 }
-

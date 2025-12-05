@@ -1,16 +1,16 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 /**
  * 숫자를 한국 원화 형식으로 포맷팅
- * 
+ *
  * @param price 가격 (숫자)
  * @returns 포맷팅된 가격 문자열 (예: "89,000원")
  */
 export function formatPrice(price: number): string {
-  return `${price.toLocaleString("ko-KR")}원`
+  return `${price.toLocaleString("ko-KR")}원`;
 }

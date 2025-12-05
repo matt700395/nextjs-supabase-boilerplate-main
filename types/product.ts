@@ -7,7 +7,7 @@
 
 /**
  * 상품 데이터 타입
- * 
+ *
  * products 테이블의 모든 컬럼을 포함합니다.
  */
 export interface Product {
@@ -41,8 +41,8 @@ export interface GetProductsOptions {
   limit?: number;
   offset?: number;
   category?: string;
-  sortBy?: 'created_at' | 'price' | 'name';
-  sortOrder?: 'asc' | 'desc';
+  sortBy?: "created_at" | "price" | "name";
+  sortOrder?: "asc" | "desc";
   isActive?: boolean;
 }
 
@@ -56,5 +56,3 @@ export interface PaginatedProducts {
   pageSize: number;
   totalPages: number;
 }
-
-

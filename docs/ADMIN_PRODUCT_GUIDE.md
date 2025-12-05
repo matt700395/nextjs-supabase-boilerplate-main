@@ -20,17 +20,17 @@
 
 `products` 테이블은 다음 컬럼으로 구성되어 있습니다:
 
-| 컬럼명 | 타입 | 설명 | 필수 | 기본값 |
-|--------|------|------|------|--------|
-| `id` | UUID | 상품 고유 ID | 자동 생성 | `gen_random_uuid()` |
-| `name` | TEXT | 상품명 | 필수 | - |
-| `description` | TEXT | 상품 설명 | 선택 | `NULL` |
-| `price` | DECIMAL(10,2) | 가격 (원) | 필수 | - |
-| `category` | TEXT | 카테고리 | 선택 | `NULL` |
-| `stock_quantity` | INTEGER | 재고 수량 | 선택 | `0` |
-| `is_active` | BOOLEAN | 활성화 여부 | 선택 | `true` |
-| `created_at` | TIMESTAMPTZ | 생성일시 | 자동 생성 | `now()` |
-| `updated_at` | TIMESTAMPTZ | 수정일시 | 자동 생성 | `now()` |
+| 컬럼명           | 타입          | 설명         | 필수      | 기본값              |
+| ---------------- | ------------- | ------------ | --------- | ------------------- |
+| `id`             | UUID          | 상품 고유 ID | 자동 생성 | `gen_random_uuid()` |
+| `name`           | TEXT          | 상품명       | 필수      | -                   |
+| `description`    | TEXT          | 상품 설명    | 선택      | `NULL`              |
+| `price`          | DECIMAL(10,2) | 가격 (원)    | 필수      | -                   |
+| `category`       | TEXT          | 카테고리     | 선택      | `NULL`              |
+| `stock_quantity` | INTEGER       | 재고 수량    | 선택      | `0`                 |
+| `is_active`      | BOOLEAN       | 활성화 여부  | 선택      | `true`              |
+| `created_at`     | TIMESTAMPTZ   | 생성일시     | 자동 생성 | `now()`             |
+| `updated_at`     | TIMESTAMPTZ   | 수정일시     | 자동 생성 | `now()`             |
 
 ## 상품 등록 방법
 
@@ -66,6 +66,7 @@
 ### 4. 저장
 
 모든 필드를 입력한 후:
+
 - **Save** 버튼을 클릭하여 상품을 저장합니다.
 - 자동으로 `id`, `created_at`, `updated_at`이 생성됩니다.
 
@@ -158,4 +159,3 @@ is_active: true
 
 - [Supabase Table Editor 문서](https://supabase.com/docs/guides/database/tables)
 - 프로젝트 스키마 파일: `supabase/migrations/db.sql`
-

@@ -13,6 +13,7 @@ import { ArrowLeft, Package } from "lucide-react";
 import { getProductById } from "@/lib/supabase/queries/products";
 import { formatPrice } from "@/lib/utils";
 import { getCategoryLabel } from "@/lib/constants/categories";
+import { AddToCartButton } from "@/components/products/add-to-cart-button";
 
 interface ProductDetailPageProps {
   params: Promise<{ id: string }>;
@@ -115,19 +116,13 @@ export default async function ProductDetailPage({
               </div>
             )}
 
-            {/* 장바구니 버튼 (Phase 3에서 기능 구현) */}
+            {/* 장바구니 버튼 */}
             <div className="mt-auto pt-6">
-              <Button
-                size="lg"
-                className="w-full"
+              <AddToCartButton
+                productId={product.id}
+                stockQuantity={product.stock_quantity}
                 disabled={isOutOfStock}
-                aria-label="장바구니에 담기"
-              >
-                {isOutOfStock ? "품절" : "장바구니에 담기"}
-              </Button>
-              <p className="mt-2 text-xs text-center text-muted-foreground">
-                장바구니 기능은 Phase 3에서 구현됩니다
-              </p>
+              />
             </div>
 
             {/* 상품 정보 (생성일 등) */}
