@@ -71,3 +71,34 @@ export interface OrderWithItems extends Order {
   items: OrderItem[];
 }
 
+/**
+ * 결제 수단 타입
+ */
+export type PaymentMethod =
+  | "카드"
+  | "가상계좌"
+  | "계좌이체"
+  | "휴대폰"
+  | "토스페이"
+  | "토스페이먼츠";
+
+/**
+ * 결제 정보 타입
+ */
+export interface PaymentInfo {
+  paymentKey: string;
+  orderId: string;
+  amount: number;
+  method?: PaymentMethod;
+  approvedAt?: string;
+}
+
+/**
+ * 결제 승인 요청 타입
+ */
+export interface PaymentConfirmRequest {
+  paymentKey: string;
+  orderId: string;
+  amount: number;
+}
+

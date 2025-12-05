@@ -13,9 +13,10 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle2, ShoppingBag, Package } from "lucide-react";
 import { getOrderById } from "@/lib/supabase/queries/orders";
 import { formatPrice } from "@/lib/utils";
+import { CheckoutSuccessClient } from "@/components/checkout/checkout-success-client";
 
 interface CheckoutSuccessPageProps {
-  searchParams: Promise<{ orderId?: string }>;
+  searchParams: Promise<{ orderId?: string; paymentKey?: string }>;
 }
 
 /**
@@ -40,6 +41,7 @@ export default async function CheckoutSuccessPage({
 
   const params = await searchParams;
   const orderId = params.orderId;
+  const paymentKey = params.paymentKey;
 
   if (!orderId) {
     redirect("/cart");
@@ -101,6 +103,10 @@ export default async function CheckoutSuccessPage({
               <span className="text-muted-foreground">주문 상태</span>
               <span className="font-medium">
                 {order.status === "pending" && "결제 대기 중"}
+                {order.status === "confirmed" && "결제 완료"}
+                {order.status === "shipped" && "배송 중"}
+                {order.status === "delivered" && "배송 완료"}
+                {order.status === "cancelled" && "주문 취소"}
               </span>
             </div>
           </div>
@@ -168,14 +174,32 @@ export default async function CheckoutSuccessPage({
           </div>
         )}
 
-        {/* 안내 메시지 */}
-        <div className="rounded-lg bg-muted p-6 mb-8">
-          <p className="text-sm text-muted-foreground text-center">
-            결제는 Phase 4에서 구현됩니다. 현재는 주문만 생성되었습니다.
-            <br />
-            주문 내역은 마이페이지에서 확인할 수 있습니다.
-          </p>
-        </div>
+        {/* 결제 승인 처리 (클라이언트 컴포넌트) */}
+        {paymentKey && (
+          <CheckoutSuccessClient
+            paymentKey={paymentKey}
+            orderId={orderId}
+            amount={order.total_amount}
+          />
+        )}
+
+        {/* 결제 완료 안내 */}
+        {order.status === "confirmed" && (
+          <div className="rounded-lg bg-green-50 dark:bg-green-900/20 p-6 mb-8 border border-green-200 dark:border-green-800">
+            <p className="text-sm text-green-800 dark:text-green-200 text-center font-medium">
+              결제가 완료되었습니다. 주문이 확인되었습니다.
+            </p>
+          </div>
+        )}
+
+        {/* 결제 대기 안내 */}
+        {order.status === "pending" && !paymentKey && (
+          <div className="rounded-lg bg-muted p-6 mb-8">
+            <p className="text-sm text-muted-foreground text-center">
+              결제 대기 중입니다. 결제를 완료해주세요.
+            </p>
+          </div>
+        )}
 
         {/* 액션 버튼 */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

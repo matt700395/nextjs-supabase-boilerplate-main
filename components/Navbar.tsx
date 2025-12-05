@@ -78,6 +78,11 @@ const Navbar = () => {
             </SignInButton>
           </SignedOut>
           <SignedIn>
+            <Link href="/my-page">
+              <Button variant="ghost" className="hidden sm:inline-flex">
+                마이페이지
+              </Button>
+            </Link>
             <UserButton />
           </SignedIn>
         </div>

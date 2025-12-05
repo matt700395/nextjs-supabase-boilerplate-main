@@ -16,6 +16,7 @@ import type {
   OrderWithItems,
   CreateOrderInput,
   ShippingAddress,
+  OrderStatus,
 } from "@/types/order";
 import type { CartItemWithProduct } from "@/types/cart";
 import { clearCart } from "./cart";
@@ -198,5 +199,61 @@ export async function getUserOrders(): Promise<Order[]> {
   }
 
   return (data || []) as Order[];
+}
+
+/**
+ * 주문 상태 업데이트
+ *
+ * 주문의 상태를 업데이트합니다. 본인의 주문만 수정할 수 있습니다.
+ *
+ * @param orderId 주문 ID
+ * @param status 새로운 주문 상태
+ * @returns 업데이트된 주문 정보
+ */
+export async function updateOrderStatus(
+  orderId: string,
+  status: OrderStatus
+): Promise<Order> {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("인증이 필요합니다. 로그인해주세요.");
+  }
+
+  const supabase = createClerkSupabaseClient();
+
+  // 주문 조회 및 권한 확인
+  const { data: existingOrder, error: fetchError } = await supabase
+    .from("orders")
+    .select("*")
+    .eq("id", orderId)
+    .eq("clerk_id", userId)
+    .single();
+
+  if (fetchError || !existingOrder) {
+    if (fetchError?.code === "PGRST116") {
+      throw new Error("주문을 찾을 수 없습니다.");
+    }
+    console.error("Error fetching order:", fetchError);
+    throw new Error(`주문 조회 실패: ${fetchError?.message || "알 수 없는 오류"}`);
+  }
+
+  // 주문 상태 업데이트
+  const { data: updatedOrder, error: updateError } = await supabase
+    .from("orders")
+    .update({ status })
+    .eq("id", orderId)
+    .eq("clerk_id", userId)
+    .select()
+    .single();
+
+  if (updateError || !updatedOrder) {
+    console.error("Error updating order status:", updateError);
+    throw new Error(`주문 상태 업데이트 실패: ${updateError?.message || "알 수 없는 오류"}`);
+  }
+
+  console.log(`Order ${orderId} status updated to ${status}`);
+
+  return updatedOrder as Order;
 }
 

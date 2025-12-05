@@ -46,12 +46,13 @@ type ShippingFormValues = z.infer<typeof shippingFormSchema>;
 
 interface CheckoutFormProps {
   cartItems: CartItemWithProduct[];
+  onOrderCreated?: (orderId: string, amount: number) => void;
 }
 
 /**
  * 주문 폼 컴포넌트
  */
-export function CheckoutForm({ cartItems }: CheckoutFormProps) {
+export function CheckoutForm({ cartItems, onOrderCreated }: CheckoutFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -88,8 +89,19 @@ export function CheckoutForm({ cartItems }: CheckoutFormProps) {
           data.orderNote || null
         );
 
-        // 주문 완료 페이지로 리다이렉트
-        router.push(`/checkout/success?orderId=${orderId}`);
+        // 총 금액 계산
+        const totalAmount = cartItems.reduce(
+          (sum, item) => sum + item.product.price * item.quantity,
+          0
+        );
+
+        // 주문 생성 성공 시 콜백 호출 (결제 단계로 전환)
+        if (onOrderCreated) {
+          onOrderCreated(orderId, totalAmount);
+        } else {
+          // 콜백이 없으면 기존대로 성공 페이지로 이동
+          router.push(`/checkout/success?orderId=${orderId}`);
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : "주문 생성에 실패했습니다.");
         console.error("Order creation error:", err);
