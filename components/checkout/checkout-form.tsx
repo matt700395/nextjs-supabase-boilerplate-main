@@ -27,6 +27,7 @@ import { Textarea } from "@/components/ui/textarea";
 import type { CartItemWithProduct } from "@/types/cart";
 import type { ShippingAddress } from "@/types/order";
 import { createOrder } from "@/lib/supabase/queries/orders";
+import { getUserFriendlyErrorMessage } from "@/lib/error-handling";
 
 /**
  * 배송지 정보 폼 스키마
@@ -103,7 +104,8 @@ export function CheckoutForm({ cartItems, onOrderCreated }: CheckoutFormProps) {
           router.push(`/checkout/success?orderId=${orderId}`);
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : "주문 생성에 실패했습니다.");
+        const errorMessage = getUserFriendlyErrorMessage(err);
+        setError(errorMessage);
         console.error("Order creation error:", err);
       }
     });

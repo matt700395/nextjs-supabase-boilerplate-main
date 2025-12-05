@@ -120,11 +120,10 @@ export function PaymentWidget({
       });
     } catch (err) {
       console.error("결제 요청 오류:", err);
-      setError(
-        err instanceof Error
-          ? err.message
-          : "결제 요청 중 오류가 발생했습니다."
-      );
+      const errorMessage = err instanceof Error
+        ? err.message
+        : "결제 요청 중 오류가 발생했습니다.";
+      setError(errorMessage);
       setIsProcessing(false);
     }
   };

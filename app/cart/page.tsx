@@ -14,6 +14,7 @@ import { CartSummary } from "@/components/cart/cart-summary";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ShoppingBag } from "lucide-react";
+import { EmptyState } from "@/components/empty-state";
 
 /**
  * 장바구니 페이지
@@ -41,16 +42,12 @@ export default async function CartPage() {
 
         {cartItems.length === 0 ? (
           /* 빈 장바구니 */
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <ShoppingBag className="h-24 w-24 text-muted-foreground/30 mb-4" />
-            <h2 className="text-2xl font-semibold mb-2">장바구니가 비어있습니다</h2>
-            <p className="text-muted-foreground mb-6">
-              원하는 상품을 장바구니에 담아보세요
-            </p>
-            <Link href="/products">
-              <Button>상품 둘러보기</Button>
-            </Link>
-          </div>
+          <EmptyState
+            icon={ShoppingBag}
+            title="장바구니가 비어있습니다"
+            description="원하는 상품을 장바구니에 담아보세요"
+            action={{ label: "상품 둘러보기", href: "/products" }}
+          />
         ) : (
           /* 장바구니 아이템 목록 */
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

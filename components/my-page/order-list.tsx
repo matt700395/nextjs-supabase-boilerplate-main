@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
 import { Package, Calendar, ArrowRight, AlertCircle } from "lucide-react";
+import { EmptyState } from "@/components/empty-state";
 import { cn } from "@/lib/utils";
 
 interface OrderListProps {
@@ -107,22 +108,12 @@ export function OrderList({ orders, error }: OrderListProps) {
     return (
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         <h1 className="text-2xl font-bold mb-6">주문 내역</h1>
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <Package className="h-16 w-16 text-muted-foreground/30 mb-4" />
-            <p className="text-muted-foreground text-center">
-              아직 주문 내역이 없습니다.
-              <br />
-              상품을 구매해보세요!
-            </p>
-            <Link
-              href="/products"
-              className="mt-6 text-primary hover:underline font-medium"
-            >
-              상품 보러가기 →
-            </Link>
-          </CardContent>
-        </Card>
+        <EmptyState
+          icon={Package}
+          title="아직 주문 내역이 없습니다"
+          description="상품을 구매해보세요!"
+          action={{ label: "상품 보러가기", href: "/products" }}
+        />
       </div>
     );
   }
